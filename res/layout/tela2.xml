@@ -24,7 +24,20 @@
             android:gravity="center"
             android:minHeight="45dp"
             android:minWidth="300dp"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            android:visibility="visible" />
+        
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_below="@+id/textView1"
+            android:adjustViewBounds="true"
+            android:contentDescription="imagem"
+            android:longClickable="true"
+            android:src="@drawable/ic_launcher" />
 
         <EditText
             android:id="@+id/editText2"
@@ -32,7 +45,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="true"
-            android:layout_below="@+id/textView1"
+            android:layout_below="@+id/imageView1"
             android:inputType="textMultiLine"
             android:ems="10" >
             
@@ -138,6 +151,8 @@
                 android:layout_height="64dp" />
     
         </LinearLayout>
+
+        
 
     </RelativeLayout>
     

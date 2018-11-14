@@ -12,15 +12,11 @@ import android.content.Intent;
 
 public class Novas_Funcionalidades extends Questao {
 
-	// private static final int READ_REQUEST_CODE = 42;
 	private static final int PICKFILE_RESULT_CODE = 1;
 
 	public ArrayList<String> realizarLeituraDaQuestao(InputStream file) throws FileNotFoundException, IOException {
 		ArrayList<String> ar = new ArrayList<String>();
 		try {
-			// File file = (file)
-			// FileInputStream fis = new FileInputStream("teste.txt");
-
 			Charset cs = Charset.forName("UTF-8");
 			InputStreamReader isr = new InputStreamReader(file, cs);
 			int ch;
@@ -42,7 +38,6 @@ public class Novas_Funcionalidades extends Questao {
 
 		} catch (Exception ex) {
 
-			// JOptionPane.showMessageDialog(null, ex.toString());
 		}
 
 		return ar;
@@ -137,5 +132,14 @@ public class Novas_Funcionalidades extends Questao {
 												//por que essa posição? Porque ela é única e mais fácil de processar do que uma String.
 												//Assim, cada elemento desta lista terá um valor relacionado ao tema correspondente.
 												//Num contexto geral, essa variável faz a ligação entre o tema e a questão do tema
+	}
+	
+	public String filtrarImagem(String enunciado){
+		try{
+			String imagem = (String) enunciado.subSequence(enunciado.indexOf("{")+1, enunciado.indexOf("}"));
+			return imagem;
+		}catch(Exception ex){
+			return "";
+		}
 	}
 }

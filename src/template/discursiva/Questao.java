@@ -4,10 +4,12 @@ import template.discursiva.R;
 import template.discursiva.Temas;
 import template.discursiva.Novas_Funcionalidades;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +17,8 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
 import android.view.GestureDetector.OnGestureListener;
@@ -26,6 +30,7 @@ import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.ScrollView;
@@ -34,8 +39,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
-
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.net.Uri;
 
 ///////////////////////////////////////// INÍCIO DA CLASSE ///////////////////////////////////////////////////////////////////////////////////////////////////	
 
@@ -58,6 +64,7 @@ public class Questao extends QuestaoConector
 	Button btnRandom, btnChecar, btnBuscar, btnAnterior, btnProximo, btnSortear, btnTema;
 	EditText txtBuscar, txtResposta;
 	Spinner btnSpinner;
+	ImageView imageView;
 
 	// variáveis para impedir que o random repita números
 	private int f = 0;
@@ -120,6 +127,7 @@ public class Questao extends QuestaoConector
 		questoesTematicas = new ArrayList<Integer>();
 		sv = (ScrollView) findViewById(R.id.scrollView);
 		txtResposta = (EditText) findViewById(R.id.editText2);
+		imageView = (ImageView) findViewById(R.id.imageView1);
 
 		// if(z!=-1){
 		// carregarQuestao(z);
@@ -393,6 +401,7 @@ public class Questao extends QuestaoConector
 		/////////////////////// FIM DO CÓDIGO PARA TRABALHAR COM O
 		/////////////////////// SPINNER/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		carregarNovamente();
+		
 	}
 
 	///////////////////////////////////////// FIM DO MÉTODO PRINCIPAL
@@ -472,7 +481,7 @@ public class Questao extends QuestaoConector
 		try {
 
 			// no caso do Questionation Discursiva, eu só preciso do range e que
-			// o app, carregue o enunciado na tela.
+			// o app carregue o enunciado na tela.
 
 			int q = questao * 2; // serve para saber o range da questão atual,
 									// por exemplo, se a questão atual é a 0,
@@ -528,6 +537,9 @@ public class Questao extends QuestaoConector
 			// txtBuscar carrega o
 			// número da questão na
 			// tela
+						
+			setVisibleImage(ar.get(q));
+			
 			return resposta;
 			// String text = String.valueOf(questao);
 
@@ -667,7 +679,7 @@ public class Questao extends QuestaoConector
 	public boolean onDown(MotionEvent e) {
 		// TODO Auto-generated method stub
 
-		return true;
+		return false;
 	}
 
 	@Override
@@ -685,7 +697,7 @@ public class Questao extends QuestaoConector
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		// TODO Auto-generated method stub
-		return true;
+		return false;
 	}
 
 	@Override
@@ -696,16 +708,6 @@ public class Questao extends QuestaoConector
 
 	@Override
 	public boolean onFling(MotionEvent motionEvent1, MotionEvent motionEvent2, float velocityX, float velocityY) {
-		// if (motionEvent1.getY() - motionEvent2.getY() > 50) {
-		// Toast.makeText(this, "You Swiped up!", Toast.LENGTH_LONG).show();
-		// return false;
-		// }
-
-		// if (motionEvent2.getY() - motionEvent1.getY() > 50) {
-		// Toast.makeText(this, "You Swiped Down!", Toast.LENGTH_LONG).show();
-		// return false;
-		// }
-
 		if (motionEvent1.getX() - motionEvent2.getX() > 50) {
 			// Toast.makeText(this, "You Swiped Left!",
 			// Toast.LENGTH_LONG).show();
@@ -750,20 +752,6 @@ public class Questao extends QuestaoConector
 	@Override
 	public boolean onDoubleTap(MotionEvent e) {
 		checar();
-		// TODO Auto-generated method stub
-		// if(z!=-1){
-		// String linha = rc.getString(b[z][0]);
-		// linha = linha.replace("Resp.:", "");
-		// linha = linha.toLowerCase();
-		// linha = linha.trim();
-		// ArrayList<String> resp = new ArrayList<String>();
-		// QuestaoAux qa = new QuestaoAux();
-		// qa.processarLinha(linha, resp);
-		// String respUI = txtResposta.getText().toString();
-		// respUI=respUI.toLowerCase();
-		// boolean gab = qa.verificarQuestaoCorreta(respUI, resp, linha);
-		// qa.apresentarQuestaoErrada(Questao.this, resp, gab);
-		// }
 		return true;
 	}
 
@@ -877,6 +865,71 @@ public class Questao extends QuestaoConector
 			boolean gab = qa.verificarQuestaoCorreta(respUI, respostaEsperada, linha);
 			qa.apresentarQuestaoErrada(Questao.this, respostaEsperada, gab);
 		}
+	}
+	
+	public String verificarFlag(String enunciado){
+		Novas_Funcionalidades nf = new Novas_Funcionalidades();
+		String imagem = nf.filtrarImagem(enunciado);
+		getPublicAlbumStorageDir("QuestionationPictures");
+		if(imagem.equals("")){
+			imageView.setVisibility(ImageView.GONE);
+			return "";
+		}else{
+			imageView.setVisibility(ImageView.VISIBLE);
+			return imagem;
+		}
+	}
+	
+	public void setVisibleImage(String enunciado){
+		
+		String imagem=verificarFlag(enunciado);
+		if(!imagem.equals("")){
+
+		// funciona!!!! imageView.setImageResource(R.drawable.blue96x96);	 
+		
+		//getPublicAlbumStorageDir("QuestionationPictures");
+		//getPublicAlbumStorageDir("test1");
+		
+		Uri uri = null;		
+		File f = getPublicFileStorageDir(imagem);
+		if(f.exists()){
+		//f = Context.
+		uri = Uri.fromFile(f);
+		final Uri uri2 = uri;
+		//imageView.setAdjustViewBounds(true);
+		//imageView.setLongClickable(true);
+		imageView.setOnLongClickListener(new View.OnLongClickListener() {
+			
+			@Override
+			public boolean onLongClick(View v) {
+				// TODO Auto-generated method stub
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(uri2);
+				startActivityForResult(intent, 1);
+				return false;
+			}
+		});
+		imageView.setImageURI(uri);
+		}
+		}
+	}
+	
+	public File getPublicAlbumStorageDir(String albumName) {
+	    // Get the directory for the user's public pictures directory.
+	    File file = new File(Environment.getExternalStoragePublicDirectory(
+	            Environment.DIRECTORY_PICTURES), albumName);
+	    
+	    if(!file.exists()){
+	    	if (!file.mkdirs()) {
+	        	Log.e("bla", "Directory not created");
+	    	}
+	    }
+	    return file;
+	}
+	
+	public File getPublicFileStorageDir(String picture){
+		File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES),"QuestionationPictures/"+picture);
+		return file;
 	}
 }
 
