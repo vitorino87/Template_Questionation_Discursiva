@@ -151,14 +151,24 @@ public class Questao extends QuestaoConector
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
-				gestureDetector.onTouchEvent(event);
 				sv.onTouchEvent(event);
+				gestureDetector.onTouchEvent(event);				
 				return true;
 			}
 		});
 
 		txtResposta.setOnTouchListener(new OnTouchListener() {
 
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				// TODO Auto-generated method stub
+				gestureDetector.onTouchEvent(event);
+				return false;
+			}
+		});
+		
+		imageView.setOnTouchListener(new OnTouchListener() {
+			
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				// TODO Auto-generated method stub
@@ -697,6 +707,8 @@ public class Questao extends QuestaoConector
 	@Override
 	public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
 		// TODO Auto-generated method stub
+		
+		
 		return false;
 	}
 
@@ -708,6 +720,9 @@ public class Questao extends QuestaoConector
 
 	@Override
 	public boolean onFling(MotionEvent motionEvent1, MotionEvent motionEvent2, float velocityX, float velocityY) {
+		if(motionEvent1 == null){
+			return false;
+		}else{
 		if (motionEvent1.getX() - motionEvent2.getX() > 50) {
 			// Toast.makeText(this, "You Swiped Left!",
 			// Toast.LENGTH_LONG).show();
@@ -739,6 +754,7 @@ public class Questao extends QuestaoConector
 			return true;
 		} else {
 			return true;
+		}
 		}
 	}
 
