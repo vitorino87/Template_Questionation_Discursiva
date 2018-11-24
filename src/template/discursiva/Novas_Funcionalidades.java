@@ -30,7 +30,7 @@ public class Novas_Funcionalidades extends Questao {
 					}
 					ar.add(text);
 					text = "";
-					isr.skip(1);
+					//isr.skip(1);
 				}
 			}
 			file.close();

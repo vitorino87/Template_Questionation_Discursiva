@@ -124,7 +124,8 @@
                 android:id="@+id/btnRandomizar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Randomizar" />
+                android:enabled="false"
+                android:text="Questões Erradas" />
 
             <Button
                 android:id="@+id/btnProximo"

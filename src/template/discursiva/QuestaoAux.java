@@ -74,10 +74,10 @@ public class QuestaoAux {
 
 	public void apresentarQuestaoErrada(Context Tela, List<String> resp, boolean gab) {
 		if (!gab) {
-			Toast.makeText(Tela, "Errado! Resposta correta: " + resp, Toast.LENGTH_SHORT).show();
+			Toast.makeText(Tela, "Errado! Resposta correta: " + resp, Toast.LENGTH_SHORT).show();					
 			//System.out.println("Errado! Resposta correta: " + resp);
 		} else {
-			Toast.makeText(Tela, "Correto", Toast.LENGTH_SHORT).show();
+			Toast.makeText(Tela, "Correto! Resposta correta: " + resp, Toast.LENGTH_SHORT).show();
 			//System.out.println("Correto! ");
 		}
 	}
@@ -124,6 +124,7 @@ public class QuestaoAux {
 		return gab;
 	}
 
+	//processa a linha e armazena as respostas na variável resp
 	public void processarLinha(String linha, List<String> resp) {
 
 		if (linha.contains(" ou ") || linha.contains(", ")) { // verifica se a
