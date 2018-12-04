@@ -20,6 +20,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnDoubleTapListener;
@@ -31,6 +32,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -67,6 +69,7 @@ public class Questao extends QuestaoConector
 	EditText txtBuscar, txtResposta;
 	Spinner btnSpinner;
 	ImageView imageView;
+	Chronometer chrono;
 
 	// variáveis para impedir que o random repita números
 	//private int f = 0;
@@ -142,6 +145,7 @@ public class Questao extends QuestaoConector
 		txtResposta = (EditText) findViewById(R.id.editText2);
 		imageView = (ImageView) findViewById(R.id.imageView1);
 		questoesErradas = new ArrayList<Integer>();
+		chrono = (Chronometer) findViewById(R.id.chronometer1);
 
 		// if(z!=-1){
 		// carregarQuestao(z);
@@ -582,6 +586,14 @@ public class Questao extends QuestaoConector
 			// alternativas
 			// rd[i].setText(abcde[i] + rd[i].getText());
 			// }
+			//chrono.stop();
+			//chrono.clearAnimation();
+			
+			chrono.stop();
+			
+			chrono.setBase(SystemClock.elapsedRealtime());			
+			//chrono.clearAnimation();//.setText("00:00");
+			chrono.start();
 
 			resposta = q + 1;
 
@@ -657,7 +669,7 @@ public class Questao extends QuestaoConector
 		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putInt("z", z);
-		editor.putString("path", pathFile);
+		editor.putString("path", pathFile);		
 		// for(int i=0;i<h;i++){
 		// String cat="aux"+i;
 		// editor.putInt(cat, w[i]);

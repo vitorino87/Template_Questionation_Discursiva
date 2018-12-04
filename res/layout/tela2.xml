@@ -13,6 +13,8 @@
         android:layout_height="490dp" 
         >
 
+        
+        
         <TextView
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
@@ -21,7 +23,7 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="false"
             android:layout_below="@+id/editText1"
-            android:gravity="center"
+            android:gravity="fill_vertical|fill_horizontal|fill"
             android:minHeight="45dp"
             android:minWidth="300dp"
             android:textSize="20sp"
@@ -61,18 +63,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:ems="10"
-            android:inputType="number" >            
+            android:inputType="number" >
 
         </EditText>
-
-        <Button
-            android:id="@+id/btnBuscar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_toRightOf="@+id/editText1"
-            android:text="Buscar" />
 
         <LinearLayout
             android:id="@+id/linearLayout1"
@@ -152,7 +145,23 @@
     
         </LinearLayout>
 
-        
+        <Button
+            android:id="@+id/btnBuscar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/textView1"
+            android:layout_alignParentRight="true"
+            android:layout_toRightOf="@+id/editText1"
+            android:text="Buscar" />
+
+        <Chronometer
+            android:id="@+id/chronometer1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@+id/linearlayout3"
+            android:layout_marginLeft="18dp"
+            android:text="Chronometer" />
 
     </RelativeLayout>
     
