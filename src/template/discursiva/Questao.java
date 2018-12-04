@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 import android.annotation.SuppressLint;
@@ -455,6 +456,7 @@ public class Questao extends QuestaoConector
 		/////////////////////// FIM DO CÓDIGO PARA TRABALHAR COM O
 		/////////////////////// SPINNER/////////////////////////////////////////////////////////////////////////////////////////////////////////
 		carregarNovamente();
+		carregarNovamenteQuestoesErradas();
 		
 	}
 
@@ -669,12 +671,35 @@ public class Questao extends QuestaoConector
 		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 		SharedPreferences.Editor editor = sharedPref.edit();
 		editor.putInt("z", z);
-		editor.putString("path", pathFile);		
+		editor.putString("path", pathFile);
+		int i = 0;
+		editor.putInt("qtdeQuestoesErradas", questoesErradas.size());
+		if(questoesErradas.size()>0){
+			for(Iterator<Integer> iterator = questoesErradas.iterator();iterator.hasNext();){			 
+				String cat= "aux"+i;			
+				editor.putInt(cat, iterator.next());
+				i++;
+			}
+		}
+		
 		// for(int i=0;i<h;i++){
 		// String cat="aux"+i;
 		// editor.putInt(cat, w[i]);
 		// }
 		editor.commit();
+	}
+	
+	/*
+	 * Esse método carrega novamente as questoes erradas
+	 */
+	public void carregarNovamenteQuestoesErradas(){
+		int qtdeQuestoesErradas = restaurarQtdeQuestoesErradas();
+		if(qtdeQuestoesErradas>0){
+			for(int i=0;i<qtdeQuestoesErradas;i++){
+				String key = "aux"+i;
+				questoesErradas.add(restaurarQuestoesErradas(key));
+			}			
+		}		
 	}
 
 	/*
@@ -692,6 +717,20 @@ public class Questao extends QuestaoConector
 		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
 		String defaultValue = "";
 		String value = sharedPref.getString("path", defaultValue);
+		return value;
+	}
+	
+	public int restaurarQuestoesErradas(String key){
+		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+		int defaultValue = -1;
+		int value = sharedPref.getInt(key, defaultValue);
+		return value;
+	}
+	
+	public int restaurarQtdeQuestoesErradas(){
+		SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+		int defaultValue = -1;
+		int value = sharedPref.getInt("qtdeQuestoesErradas", defaultValue);
 		return value;
 	}
 
